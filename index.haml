@@ -1,0 +1,4 @@
+%ul
+	- links.each do |link|
+		%li
+			%a{:href => link.href}= link.text
