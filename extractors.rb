@@ -61,14 +61,16 @@ class IndexPage < Page
 		@links = []
 		@children = []
 		Dir.glob("#{file_path}/*").each do |file|
-			name = File.basename file, ".*"
-			links << Link.new(name, "#{output_dir}/#{my_name}/#{name}.html")
+			unless IGNORE.member?(File.basename file)
+				name = File.basename file, ".*"
+				links << Link.new(name, "#{my_name}/#{name}.html")
 
-			if File.directory? file				
-				children << IndexPage.new(file, "#{output_dir}/#{my_name}", title)
-			else
-				extractor = EXTRACTORS[File.extname(file)]
-				children << extractor.new(file, "#{output_dir}/#{my_name}", title)
+				if File.directory? file				
+					children << IndexPage.new(file, "#{output_dir}/#{my_name}", title)
+				else
+					extractor = EXTRACTORS[File.extname(file)]
+					children << extractor.new(file, "#{output_dir}/#{my_name}", title)
+				end
 			end
 		end
 
@@ -100,3 +102,5 @@ EXTRACTORS = {
 	".txt" => TextPage,
 	".html" => HtmlPage
 }
+
+IGNORE = Set.new ["SnoOut"]
