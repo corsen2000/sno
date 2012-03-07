@@ -1,4 +1,12 @@
+- unless (dirs = directories(children)).empty?
+	%h3 Directories
+	%ul
+		- dirs.each do |child|
+			%li
+				%a{:href => child.link}= titleize(child.link)
+
+%h3 Files
 %ul
-	- links.each do |link|
+	- files(children).each do |child|
 		%li
-			%a{:href => link.href}= link.text
+			%a{:href => child.link}= titleize(child.link)
