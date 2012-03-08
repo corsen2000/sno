@@ -2,7 +2,8 @@ require 'optparse'
 require_relative "extractors.rb"
 
 options = {
-    :project_name => nil
+    :project_name => nil,
+    :css_file => "global.css"
 }
 
 OptionParser.new do |opts|
@@ -23,5 +24,5 @@ output_dir = ARGV[1] || "#{input_dir}/SnoOut"
 
 Dir.mkdir(output_dir) unless Dir.exists? output_dir
 
-root = IndexPage.new input_dir, output_dir, options[:project_name]
+root = IndexPage.new input_dir, output_dir, options
 root.save

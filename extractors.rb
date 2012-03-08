@@ -1,13 +1,8 @@
 require "haml"
 require "cgi"
 require "fileutils"
-
-def titleize(href)
-	title = File.basename href, ".*"
-	title.gsub! /[-_]/, " "
-	title = title.split(/(?=[A-Z])/).each(&:strip!).join " "
-	title.split(" ").each(&:capitalize!).join " "
-end
+require "active_support/inflector"
+require "pathname"
 
 def directories(extractors)
 	extractors.reject { |item| item.class != IndexPage }
@@ -18,7 +13,7 @@ def files(extractors)
 	extractors.reject { |item| item.class == IndexPage }
 end
 
-class Extractor
+class Extractor	
 	attr_accessor :file_path
 	attr_accessor :output_dir
 
@@ -52,17 +47,21 @@ class Linker < Extractor
 end
 
 class Page < Linker
+	include ActiveSupport::Inflector
 	attr_accessor :content
 	attr_accessor :name
+	attr_accessor :css_path
+	attr_accessor :options
 
-	def initialize(file_path, output_dir, title = nil)
+	def initialize(file_path, output_dir, options = {})
 		super file_path, output_dir
-		@title = title
 		@name = File.basename file_path, ".*"
+		@options = options
+		@css_path = Pathname.new(options[:css_file]).relative_path_from Pathname.new output_dir if options[:css_file]
 	end
 
 	def title
-		@title ||= titleize(name)
+		options[:project_name] ||= titleize(name)
 	end
 
 	def header
@@ -114,10 +113,10 @@ class IndexPage < Page
 	private
 	def create_extractor(file)
 		if File.directory? file				
-			IndexPage.new(file, "#{output_dir}/#{File.basename file_path}", title)
+			IndexPage.new(file, "#{output_dir}/#{File.basename file_path}", options)
 		else
 			extractor = EXTRACTORS[File.extname(file)]
-			extractor.new(file, "#{output_dir}/#{File.basename file_path}", title) if extractor
+			extractor.new(file, "#{output_dir}/#{File.basename file_path}", options) if extractor
 		end
 	end
 end

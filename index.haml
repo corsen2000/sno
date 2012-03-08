@@ -3,10 +3,10 @@
 	%ul
 		- dirs.each do |child|
 			%li
-				%a{:href => child.link}= titleize(child.link)
+				%a{:href => child.link}= titleize(File.basename child.link, ".*")
 
 %h3 Files
 %ul
 	- files(children).each do |child|
 		%li
-			%a{:href => child.link}= titleize(child.link)
+			%a{:href => child.link}= titleize(File.basename child.link, ".*")

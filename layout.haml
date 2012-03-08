@@ -1,7 +1,12 @@
 %html
 	%head
 		%title= title
+		- unless css_path.nil?
+			%link{:rel => "stylesheet", :type => "text/css", :href => css_path}
 	%body
-		%h1= title
-		%h2= titleize header
-		#content= content
+		%div{:id => "container"}
+			%div{:id => "title_bar"}
+				%h1= title
+			%div{:id => "content"}
+				%h2= titleize header
+				#content= content
