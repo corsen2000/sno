@@ -128,20 +128,27 @@ class IndexPage < Page
 end
 
 class TextPage < Page
-	def extract_content()
+	def extract_content
 		CGI::escapeHTML File.read(file_path)
 	end
 end
 
 class HtmlPage < Page
-	def extract_content()
+	def extract_content
 		File.read file_path
+	end
+end
+
+class HamlPage < Page
+	def extract_content
+		Haml::Engine.new(File.read(file_path)).render
 	end
 end
 
 EXTRACTORS = {
 	/.*\.txt/ => TextPage,
-	/.*\.html/ => HtmlPage
+	/.*\.html/ => HtmlPage,
+	/.*\.haml/ => HamlPage
 }
 
 IGNORE = Set.new ["SnoOut"]
