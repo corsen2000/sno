@@ -3,6 +3,7 @@ require "cgi"
 require "fileutils"
 require "active_support/inflector"
 require "pathname"
+require "base64"
 
 def directories(extractors)
 	extractors.reject { |item| item.class != IndexPage }
@@ -95,7 +96,8 @@ class IndexPage < Page
 		@children = []
 		Dir.glob("#{file_path}/*").each do |file|
 			unless IGNORE.member?(File.basename file)								
-				children << create_extractor(file)
+				extractor = create_extractor(file)
+				children << extractor unless extractor.nil?
 			end
 		end
 		index_engine = Haml::Engine.new(File.read("index.haml"))
@@ -121,9 +123,10 @@ class IndexPage < Page
 	end
 
 	def find_extractor(filename)
-		EXTRACTORS.detect do |regex, extractor|
+		extractor = EXTRACTORS.detect do |regex, extractor|
 			 regex.match(filename)
-		end.last
+		end
+		extractor.last unless extractor.nil?
 	end
 end
 
@@ -145,10 +148,18 @@ class HamlPage < Page
 	end
 end
 
+class ImagePage < Page
+	def extract_content
+		base64 = Base64.encode64(File.read(file_path))		
+		"<img src=\"data:image/#{File.extname file_path};base64,#{base64}\" />"
+	end
+end
+
 EXTRACTORS = {
 	/.*\.txt/ => TextPage,
 	/.*\.html/ => HtmlPage,
-	/.*\.haml/ => HamlPage
+	/.*\.haml/ => HamlPage,
+	/.*\.jpg/ => ImagePage
 }
 
 IGNORE = Set.new ["SnoOut"]
