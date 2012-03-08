@@ -115,9 +115,15 @@ class IndexPage < Page
 		if File.directory? file				
 			IndexPage.new(file, "#{output_dir}/#{File.basename file_path}", options)
 		else
-			extractor = EXTRACTORS[File.extname(file)]
+			extractor = find_extractor File.basename file
 			extractor.new(file, "#{output_dir}/#{File.basename file_path}", options) if extractor
 		end
+	end
+
+	def find_extractor(filename)
+		EXTRACTORS.detect do |regex, extractor|
+			 regex.match(filename)
+		end.last
 	end
 end
 
@@ -134,8 +140,8 @@ class HtmlPage < Page
 end
 
 EXTRACTORS = {
-	".txt" => TextPage,
-	".html" => HtmlPage
+	/.*\.txt/ => TextPage,
+	/.*\.html/ => HtmlPage
 }
 
 IGNORE = Set.new ["SnoOut"]
