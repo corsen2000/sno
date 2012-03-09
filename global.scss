@@ -4,7 +4,9 @@ body {
 }
 h1 {
 	&, a, a:visited {
-		color: #020246;
+		color: #020246;		
+	}
+	a, a:visited {
 		text-decoration: underline;
 	}
 }
