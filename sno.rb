@@ -24,5 +24,9 @@ output_dir = ARGV[1] || "#{input_dir}/SnoOut"
 
 Dir.mkdir(output_dir) unless Dir.exists? output_dir
 
+css_file_copy = "#{output_dir}/#{File.basename options[:css_file]}"
+FileUtils.copy options[:css_file], css_file_copy
+options[:css_file] = css_file_copy
+
 root = IndexPage.new input_dir, output_dir, options
 root.save
