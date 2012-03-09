@@ -53,12 +53,15 @@ class Page < Linker
 	attr_accessor :name
 	attr_accessor :css_path
 	attr_accessor :options
+	attr_accessor :root_href
 
 	def initialize(file_path, output_dir, options = {})
 		super file_path, output_dir
 		@name = File.basename file_path, ".*"
 		@options = options
 		@css_path = Pathname.new(options[:css_file]).relative_path_from Pathname.new output_dir if options[:css_file]
+		options[:root_path] ||= output_path
+		@root_href = Pathname.new(options[:root_path]).relative_path_from Pathname.new output_dir 
 	end
 
 	def title

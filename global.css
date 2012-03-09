@@ -2,15 +2,16 @@ body {
   margin: 0;
   background-color: white; }
 
-h1 {
-  color: #147082; }
+h1, h1 a, h1 a:visited {
+  color: #020246;
+  text-decoration: underline; }
 
 h2, h3 {
-  color: #448793; }
+  color: #2A2A5E; }
 
 a, a:visited {
   text-decoration: none;
-  color: #39ABC0; }
+  color: #2828B5; }
 
 #title_bar, #content {
   padding: 0 10px; }

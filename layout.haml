@@ -6,7 +6,8 @@
 	%body
 		%div{:id => "container"}
 			%div{:id => "title_bar"}
-				%h1= title
+				%h1
+					%a{:href => root_href}= title
 			%div{:id => "content"}
 				%h2= titleize header
 				#page_content= content

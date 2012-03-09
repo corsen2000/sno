@@ -3,7 +3,10 @@ body {
 	background-color: white;
 }
 h1 {
-	color: #020246;
+	&, a, a:visited {
+		color: #020246;
+		text-decoration: underline;
+	}
 }
 h2, h3 {
 	color: #2A2A5E;
