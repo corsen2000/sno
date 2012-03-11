@@ -185,5 +185,3 @@ class ImagePage < Page
 	end
 end
 Extractor.add_matcher({:class => ImagePage, :expressions => [/.*\.jpg/]})
-
-Extractor.add_ignore("TestRoot/ignore_me.txt")

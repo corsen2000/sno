@@ -24,11 +24,5 @@ end.parse!
 input_dir = ARGV[0] or raise "You must specify a input directory!"
 output_dir = ARGV[1] || "#{input_dir}/SnoOut"
 
-Dir.mkdir(output_dir) unless Dir.exists? output_dir
-
-css_file_copy = "#{output_dir}/global.css"
-FileUtils.copy "#{SNO_ROOT}/assets/base/global.css", css_file_copy
-options[:css_file] = css_file_copy
-
-root = Extractor.extractor_for(input_dir).new input_dir, output_dir, options
-root.save
+root_extractor = sno_init(input_dir, output_dir, options)
+root_extractor.save
