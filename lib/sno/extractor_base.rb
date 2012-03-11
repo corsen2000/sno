@@ -56,11 +56,12 @@ class Extractor
 		unless @@ignore_patterns.any? { |pattern| !file_path.match(pattern).nil? }
 			matchers = File.directory?(file_path) ? @@directory_matchers : @@file_matchers 
 			filename = File.basename file_path
-			matchers.detect do |matcher|
+			matcher = matchers.detect do |matcher|
 				matcher[:expressions].any? do |expression|
 					expression.match(filename)
 				end
-			end[:class]
+			end
+			matcher[:class] unless matcher.nil?
 		end
 	end
 end
