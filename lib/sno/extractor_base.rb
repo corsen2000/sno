@@ -5,15 +5,6 @@ require "active_support/inflector"
 require "pathname"
 require "base64"
 
-def directories(extractors)
-	extractors.reject { |item| item.class != IndexPage }
-	
-end
-
-def files(extractors)
-	extractors.reject { |item| item.class == IndexPage }
-end
-
 class Extractor
 	@@file_matchers = []
 	@@directory_matchers = []
@@ -26,6 +17,10 @@ class Extractor
 		@file_path = file_path
 		@output_dir = output_dir
 		@options = options
+	end
+
+	def directory?
+		false
 	end
 
 	def save
@@ -132,6 +127,18 @@ class IndexPage < Page
 		end
 		index_engine = Haml::Engine.new(File.read("#{TEMPLATE_ROOT}/index.haml"))
 		index_engine.render(self)
+	end
+
+	def directory?
+		true		
+	end
+
+	def directories
+		children.reject { |item| !item.directory? }	
+	end
+
+	def files
+		children.reject { |item| item.directory? }
 	end
 
 	def save
