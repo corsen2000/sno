@@ -1,5 +1,6 @@
+#!/usr/bin/env ruby
+require "sno"
 require 'optparse'
-require_relative "extractors.rb"
 
 options = {
     :project_name => nil,
