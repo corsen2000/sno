@@ -14,13 +14,18 @@ def files(extractors)
 	extractors.reject { |item| item.class == IndexPage }
 end
 
-class Extractor	
+class Extractor
+	@@file_matchers = []
+	@@directory_matchers = []
+	@@ignore_patterns = []
 	attr_accessor :file_path
 	attr_accessor :output_dir
+	attr_accessor :options
 
-	def initialize(file_path, output_dir)
+	def initialize(file_path, output_dir, options = {})
 		@file_path = file_path
 		@output_dir = output_dir
+		@options = options
 	end
 
 	def save
@@ -39,6 +44,30 @@ class Extractor
 	def output_extension
 		File.extname file_path
 	end
+
+	def self.add_matcher(matcher, directory = false)
+		if directory
+			@@directory_matchers << matcher
+		else
+			@@file_matchers << matcher
+		end		
+	end
+
+	def self.add_ignore(regex)
+		@@ignore_patterns << regex
+	end
+
+	def self.extractor_for(file_path)
+		unless @@ignore_patterns.any? { |pattern| !file_path.match(pattern).nil? }
+			matchers = File.directory?(file_path) ? @@directory_matchers : @@file_matchers 
+			filename = File.basename file_path
+			matchers.detect do |matcher|
+				matcher[:expressions].any? do |expression|
+					expression.match(filename)
+				end
+			end[:class]
+		end
+	end
 end
 
 class Linker < Extractor
@@ -51,14 +80,12 @@ class Page < Linker
 	include ActiveSupport::Inflector
 	attr_accessor :content
 	attr_accessor :name
-	attr_accessor :css_path
-	attr_accessor :options
+	attr_accessor :css_path	
 	attr_accessor :root_href
 
 	def initialize(file_path, output_dir, options = {})
-		super file_path, output_dir
-		@name = File.basename file_path, ".*"
-		@options = options
+		super file_path, output_dir, options
+		@name = File.basename file_path, ".*"		
 		@css_path = Pathname.new(options[:css_file]).relative_path_from Pathname.new output_dir if options[:css_file]
 		options[:root_path] ||= output_path
 		@root_href = Pathname.new(options[:root_path]).relative_path_from Pathname.new output_dir 
@@ -98,8 +125,8 @@ class IndexPage < Page
 	def extract_content()
 		@children = []
 		Dir.glob("#{file_path}/*").each do |file|
-			unless IGNORE.member?(File.basename file)								
-				extractor = create_extractor(file)
+			extractor = create_extractor(file)
+			if extractor
 				children << extractor unless extractor.nil?
 			end
 		end
@@ -116,40 +143,33 @@ class IndexPage < Page
 	end
 
 	private
-	def create_extractor(file)
-		if File.directory? file				
-			IndexPage.new(file, "#{output_dir}/#{File.basename file_path}", options)
-		else
-			extractor = find_extractor File.basename file
-			extractor.new(file, "#{output_dir}/#{File.basename file_path}", options) if extractor
-		end
-	end
-
-	def find_extractor(filename)
-		extractor = EXTRACTORS.detect do |regex, extractor|
-			 regex.match(filename)
-		end
-		extractor.last unless extractor.nil?
+	def create_extractor(file)		
+		extractor = Extractor.extractor_for(file)
+		extractor.new(file, "#{output_dir}/#{File.basename file_path}", options) if extractor
 	end
 end
+Extractor.add_matcher({:class => IndexPage, :expressions => [/.*/]}, true)
 
 class TextPage < Page
 	def extract_content
 		CGI::escapeHTML File.read(file_path)
 	end
 end
+Extractor.add_matcher({:class => TextPage, :expressions => [/.*\.txt/]})
 
 class HtmlPage < Page
 	def extract_content
 		File.read file_path
 	end
 end
+Extractor.add_matcher({:class => HtmlPage, :expressions => [/.*\.html/]})
 
 class HamlPage < Page
 	def extract_content
 		Haml::Engine.new(File.read(file_path)).render
 	end
 end
+Extractor.add_matcher({:class => HamlPage, :expressions => [/.*\.haml/]})
 
 class ImagePage < Page
 	def extract_content
@@ -157,12 +177,6 @@ class ImagePage < Page
 		"<img src=\"data:image/#{File.extname file_path};base64,#{base64}\" />"
 	end
 end
+Extractor.add_matcher({:class => ImagePage, :expressions => [/.*\.jpg/]})
 
-EXTRACTORS = {
-	/.*\.txt/ => TextPage,
-	/.*\.html/ => HtmlPage,
-	/.*\.haml/ => HamlPage,
-	/.*\.jpg/ => ImagePage
-}
-
-IGNORE = Set.new ["SnoOut"]
+Extractor.add_ignore("TestRoot/ignore_me.txt")

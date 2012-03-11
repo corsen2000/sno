@@ -29,5 +29,5 @@ css_file_copy = "#{output_dir}/#{File.basename options[:css_file]}"
 FileUtils.copy options[:css_file], css_file_copy
 options[:css_file] = css_file_copy
 
-root = IndexPage.new input_dir, output_dir, options
+root = Extractor.extractor_for(input_dir).new input_dir, output_dir, options
 root.save
