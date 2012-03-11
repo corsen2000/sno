@@ -1,1 +1,1 @@
-require "sno/extractors"
+require "sno/extractor_base"
