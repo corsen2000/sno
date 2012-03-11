@@ -108,7 +108,7 @@ class Page < Linker
 	end
 
 	def to_html
-		page_engine = Haml::Engine.new(File.read("layout.haml"))
+		page_engine = Haml::Engine.new(File.read("#{TEMPLATE_ROOT}/layout.haml"))
 		page_engine.render(self)
 	end
 
@@ -130,7 +130,7 @@ class IndexPage < Page
 				children << extractor unless extractor.nil?
 			end
 		end
-		index_engine = Haml::Engine.new(File.read("index.haml"))
+		index_engine = Haml::Engine.new(File.read("#{TEMPLATE_ROOT}/index.haml"))
 		index_engine.render(self)
 	end
 

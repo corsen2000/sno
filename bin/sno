@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 SNO_ROOT =  File.expand_path("../../", __FILE__)
+TEMPLATE_ROOT = "#{SNO_ROOT}/assets/templates"
 require "sno"
 require 'optparse'
 
 options = {
-    :project_name => nil,
-    :css_file => "global.css"
+    :project_name => nil
 }
 
 OptionParser.new do |opts|
@@ -26,8 +26,8 @@ output_dir = ARGV[1] || "#{input_dir}/SnoOut"
 
 Dir.mkdir(output_dir) unless Dir.exists? output_dir
 
-css_file_copy = "#{output_dir}/#{File.basename options[:css_file]}"
-FileUtils.copy options[:css_file], css_file_copy
+css_file_copy = "#{output_dir}/global.css"
+FileUtils.copy "#{SNO_ROOT}/assets/base/global.css", css_file_copy
 options[:css_file] = css_file_copy
 
 root = Extractor.extractor_for(input_dir).new input_dir, output_dir, options
