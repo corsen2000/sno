@@ -11,7 +11,7 @@ def sno_init(input_dir, output_dir, options)
 		FileUtils.copy "#{SNO_ROOT}/assets/base/.snoignore", "#{input_dir}/.snoignore"
 	end
 	File.open("#{input_dir}/.snoignore").each do |line|
-		Extractor.add_ignore("#{input_dir}/#{line}")
+		Extractor.add_ignore("#{input_dir}/#{line.chomp}")
 	end
 
 	Extractor.extractor_for(input_dir).new input_dir, output_dir, options
