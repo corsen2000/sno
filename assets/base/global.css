@@ -13,6 +13,8 @@ h2, h3 {
 a, a:visited {
   text-decoration: none;
   color: #2828B5; }
+  a.raw, a:visited.raw {
+    color: red; }
 
 #title_bar, #content {
   padding: 0 10px; }

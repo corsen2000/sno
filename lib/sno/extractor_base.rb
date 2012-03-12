@@ -67,10 +67,14 @@ class Extractor
 end
 
 class Linker < Extractor
+	def link_type
+		:raw
+	end
 	def link
 		"#{File.basename output_dir}/#{output_name}"
 	end
 end
+Extractor.add_matcher({:class => Linker, :expressions => [/.*\.pdf/]})
 
 class Page < Linker
 	include ActiveSupport::Inflector
@@ -106,6 +110,10 @@ class Page < Linker
 	def to_html
 		page_engine = Haml::Engine.new(File.read("#{TEMPLATE_ROOT}/layout.haml"))
 		page_engine.render(self)
+	end
+
+	def link_type
+		:internal
 	end
 
 	def save
