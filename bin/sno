@@ -21,8 +21,8 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-input_dir = ARGV[0] or raise "You must specify a input directory!"
-output_dir = ARGV[1] || "#{input_dir}/SnoOut"
+input_dir = (ARGV[0] && ARGV[0].chomp("/")) or raise "You must specify a input directory!"
+output_dir = (ARGV[1] && ARGV[1].chomp("/")) || "#{input_dir}/SnoOut"
 
 root_extractor = sno_init(input_dir, output_dir, options)
 root_extractor.save
