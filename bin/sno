@@ -1,8 +1,12 @@
 #!/usr/bin/env ruby
+#require "rubygems"
+#require "bundler/setup"
 SNO_ROOT =  File.expand_path("../../", __FILE__)
 TEMPLATE_ROOT = "#{SNO_ROOT}/assets/templates"
 require "sno"
 require 'optparse'
+
+include Sno
 
 options = {
     :project_name => nil
