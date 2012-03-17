@@ -2,6 +2,8 @@ require "sno/extractor_base"
 
 module Sno
 	def sno_init(input_dir, output_dir, options)
+		input_dir = File.expand_path(input_dir)
+
 		Dir.mkdir(output_dir) unless Dir.exists? output_dir
 
 		css_file_copy = "#{output_dir}/global.css"
