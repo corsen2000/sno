@@ -24,4 +24,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "haml"
   s.add_runtime_dependency "activesupport"
   s.add_runtime_dependency "RedCloth"
+  s.add_runtime_dependency "redcarpet"
 end

@@ -5,6 +5,7 @@ require "active_support/inflector"
 require "pathname"
 require "base64"
 require "redcloth"
+require "redcarpet"
 
 module Sno
 	class Extractor
@@ -203,4 +204,13 @@ module Sno
 		end
 	end
 	Extractor.add_matcher({:class => TextilePage, :expressions => [/.*\.textile/]})
+
+	class MarkDownPage < Page
+		@@markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, 
+			:autolink => true, :space_after_headers => true)
+		def extract_content
+			@@markdown.render(File.read(file_path))
+		end
+	end
+	Extractor.add_matcher({:class => MarkDownPage, :expressions => [/.*\.md/]})
 end
