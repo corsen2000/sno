@@ -5,8 +5,9 @@
 			%li
 				%a{:href => child.link, :class => child.link_type}= titleize(File.basename child.link, ".*")
 
-%h3 Files
-%ul
-	- files.each do |child|
-		%li
-			%a{:href => child.link, :class => child.link_type}= titleize(File.basename child.link, ".*")
+- unless (files = self.files).empty?
+	%h3 Files
+	%ul
+		- files.each do |child|
+			%li
+				%a{:href => child.link, :class => child.link_type}= titleize(File.basename child.link, ".*")
