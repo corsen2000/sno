@@ -4,6 +4,7 @@ require "fileutils"
 require "active_support/inflector"
 require "pathname"
 require "base64"
+require "redcloth"
 
 module Sno
 	class Extractor
@@ -195,4 +196,11 @@ module Sno
 		end
 	end
 	Extractor.add_matcher({:class => ImagePage, :expressions => [/.*\.jpg/]})
+
+	class TextilePage < Page
+		def extract_content
+			RedCloth.new(File.read(file_path)).to_html
+		end
+	end
+	Extractor.add_matcher({:class => TextilePage, :expressions => [/.*\.textile/]})
 end
