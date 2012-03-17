@@ -133,12 +133,14 @@ module Sno
 			@children = []
 			Dir.glob("#{file_path}/*").each do |file|
 				extractor = create_extractor(file)
-				if extractor
-					children << extractor unless extractor.nil?
+				if extractor && !extractor.link.nil?
+					children << extractor
 				end
 			end
-			index_engine = Haml::Engine.new(File.read("#{TEMPLATE_ROOT}/index.haml"))
-			index_engine.render(self)
+			unless children.empty?
+				index_engine = Haml::Engine.new(File.read("#{TEMPLATE_ROOT}/index.haml"))
+				index_engine.render(self)
+			end
 		end
 
 		def directory?
@@ -151,6 +153,10 @@ module Sno
 
 		def files
 			children.reject { |item| item.directory? }
+		end
+
+		def link
+			super unless content.nil?
 		end
 
 		def save
