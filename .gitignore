@@ -3,6 +3,9 @@
 Gemfile.lock
 pkg/*
 
+.yardoc
+doc/*
+
 .sass-cache*
 TestRoot
 SnoOut
