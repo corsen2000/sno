@@ -85,13 +85,22 @@ module Sno
 		attr_accessor :name
 		attr_accessor :css_path	
 		attr_accessor :root_href
+		attr_accessor :bread_crumbs
 
 		def initialize(file_path, output_dir, options = {})
 			super file_path, output_dir, options
 			@name = File.basename file_path, ".*"		
 			@css_path = Pathname.new(options[:css_file]).relative_path_from Pathname.new output_dir if options[:css_file]
 			options[:root_path] ||= output_path
-			@root_href = Pathname.new(options[:root_path]).relative_path_from Pathname.new output_dir 
+			@root_href = Pathname.new(options[:root_path]).relative_path_from Pathname.new output_dir
+			@bread_crumbs = options[:bread_crumbs] || []
+			bread_crumbs << "#{output_dir}/#{output_name}"
+		end
+
+		def bread_crumbs_rel
+			@bread_crumbs.map do |url|
+				Pathname.new(url).relative_path_from Pathname.new output_dir
+			end
 		end
 
 		def title
@@ -170,6 +179,8 @@ module Sno
 		private
 		def create_extractor(file)		
 			extractor = Extractor.extractor_for(file)
+			options = self.options.clone
+			options[:bread_crumbs] = [] + bread_crumbs
 			extractor.new(file, "#{output_dir}/#{File.basename file_path}", options) if extractor
 		end
 	end

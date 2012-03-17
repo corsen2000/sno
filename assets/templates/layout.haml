@@ -8,6 +8,8 @@
 			%div{:id => "title_bar"}
 				%h1
 					%a{:href => root_href}= title
+			%div{:id => "bread_crumbs"}
+				- bread_crumbs_rel.each do|crumb|
+					%a{:href => crumb}= titleize(File.basename crumb, ".*")
 			%div{:id => "content"}
-				%h2= titleize header
 				#page_content= content

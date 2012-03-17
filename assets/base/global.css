@@ -16,5 +16,10 @@ a, a:visited {
   a.raw, a:visited.raw {
     color: red; }
 
-#title_bar, #content {
+#title_bar, #content, #bread_crumbs {
   padding: 0 10px; }
+
+#bread_crumbs a::after {
+  content: " >"; }
+#bread_crumbs a:last-child::after {
+  content: ""; }
