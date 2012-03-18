@@ -120,7 +120,7 @@ module Sno
 		end
 
 		def to_html
-			page_engine = Haml::Engine.new(File.read("#{TEMPLATE_ROOT}/layout.haml"))
+			page_engine = Haml::Engine.new(File.read("#{TEMPLATE_ROOT}/layout.haml"), :ugly => true)
 			page_engine.render(self)
 		end
 
@@ -224,7 +224,7 @@ module Sno
 
 	class MarkDownPage < Page
 		@@markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, 
-			:autolink => true, :space_after_headers => true)
+			:autolink => true, :space_after_headers => true, :fenced_code_blocks => true)
 		def extract_content
 			@@markdown.render(File.read(file_path))
 		end

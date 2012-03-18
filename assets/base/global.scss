@@ -20,6 +20,16 @@ a, a:visited {
 		color: red;
 	}
 }
+blockquote {
+	background-color: lightgray;
+	border: 1px solid navy;
+	p:first-child {
+		margin-top: 0;
+	}
+	p:last-child {
+		margin-bottom: 0;
+	}
+}
 #title_bar, #content, #bread_crumbs {
 	padding: 0 10px;
 }
