@@ -34,7 +34,14 @@ blockquote {
 	padding: 0 10px;
 }
 
+#title_bar {
+	h1 {
+		margin-bottom: 0;
+	}
+}
+
 #bread_crumbs {
+	margin: 1em 0;
 	a {
 		&::after {
 			content: " >";

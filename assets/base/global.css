@@ -27,7 +27,12 @@ blockquote {
 #title_bar, #content, #bread_crumbs {
   padding: 0 10px; }
 
-#bread_crumbs a::after {
-  content: " >"; }
-#bread_crumbs a:last-child::after {
-  content: ""; }
+#title_bar h1 {
+  margin-bottom: 0; }
+
+#bread_crumbs {
+  margin: 1em 0; }
+  #bread_crumbs a::after {
+    content: " >"; }
+  #bread_crumbs a:last-child::after {
+    content: ""; }
