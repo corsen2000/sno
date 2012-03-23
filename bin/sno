@@ -10,7 +10,8 @@ require "json"
 include Sno
 
 options = {
-    :project_name => nil
+    :project_name => nil,
+    :force => false
 }
 
 OptionParser.new do |opts|
@@ -18,6 +19,10 @@ OptionParser.new do |opts|
 
 	opts.on("-n", "--project-name [NAME]", String, "Specify a name to persist throughout the pages") do |n|
     	options[:project_name] = n
+  	end
+
+  	opts.on("-f", "--force", "Force updates to .sno assets directory") do
+  		options[:force] = true
   	end
 
   	opts.on("-h", "--help", "Show this message") do
