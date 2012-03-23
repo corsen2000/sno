@@ -84,12 +84,8 @@ module Sno
 		include ActiveSupport::Inflector
 		attr_accessor :content
 		attr_accessor :name
-		attr_accessor :css_path
-		attr_accessor :jquery_path
 		attr_accessor :root_href
-		attr_accessor :simple_search_path
 		attr_accessor :bread_crumbs
-		attr_accessor :search_json_path
 
 		def initialize(file_path, output_dir, options = {})
 			super file_path, output_dir, options
@@ -100,11 +96,6 @@ module Sno
 			@bread_crumbs = options[:bread_crumbs] || []
 			bread_crumbs << "#{output_dir}/#{output_name}"
 			@@pages << {:label => titleize(@name), :value => File.expand_path("#{output_dir}/#{output_name}")}
-			@jquery_path = Pathname.new(JQUERY).relative_path_from Pathname.new output_dir
-			@jquery_ui_path = Pathname.new(JQUERY_UI).relative_path_from Pathname.new output_dir
-			@simple_search_path = Pathname.new(SIMPLE).relative_path_from Pathname.new output_dir
-			@jquery_ui_css_path = Pathname.new(JQUERY_UI_CSS).relative_path_from Pathname.new output_dir
-			@search_json_path = Pathname.new(SEARCH_INDEX).relative_path_from Pathname.new output_dir
 		end
 
 		def self.pages
@@ -112,11 +103,19 @@ module Sno
 		end
 
 		def javascripts
-			[@jquery_path, @jquery_ui_path, @simple_search_path]
+			%w(jquery jquery-ui simple_search).map do |js|
+				Pathname.new("#{options[:assets_root]}/#{js}.js").relative_path_from Pathname.new output_dir
+			end
+		end
+
+		def search_json_path
+			Pathname.new("#{options[:assets_root]}/search_index.json").relative_path_from Pathname.new output_dir
 		end
 
 		def stylesheets
-			[@jquery_ui_css_path]
+			["jquery-ui", options[:css_file]].map do |css|
+				Pathname.new("#{options[:assets_root]}/#{css}.css").relative_path_from Pathname.new output_dir
+			end
 		end
 
 		def bread_crumbs_rel
