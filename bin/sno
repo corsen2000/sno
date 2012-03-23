@@ -5,6 +5,7 @@ SNO_ROOT =  File.expand_path("../../", __FILE__)
 TEMPLATE_ROOT = "#{SNO_ROOT}/assets/templates"
 require "sno"
 require 'optparse'
+require "json"
 
 include Sno
 
@@ -28,5 +29,15 @@ end.parse!
 input_dir = (ARGV[0] && ARGV[0].chomp("/")) or raise "You must specify a input directory!"
 output_dir = (ARGV[1] && ARGV[1].chomp("/")) || "#{input_dir}/SnoOut"
 
+JQUERY = "#{output_dir}/jquery.js"
+JQUERY_UI = "#{output_dir}/jquery-ui.js"
+SIMPLE = "#{output_dir}/simple_search.js"
+JQUERY_UI_CSS = "#{output_dir}/jquery-ui.css"
+SEARCH_INDEX = "#{output_dir}/search_index.json"
+
 root_extractor = sno_init(input_dir, output_dir, options)
 root_extractor.save
+
+File.open("#{output_dir}/search_index.json", "w+") do |f|
+	f.puts JSON(Page.pages)
+end

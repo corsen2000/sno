@@ -1,6 +1,10 @@
 %html
 	%head
 		%title= title
+		- javascripts.each do|js_file|
+			%script{:type => "text/javascript", :src => js_file}
+		- stylesheets.each do |css_file|
+			%link{:rel => "stylesheet", :type => "text/css", :href => css_file}
 		- unless css_path.nil?
 			%link{:rel => "stylesheet", :type => "text/css", :href => css_path}
 	%body
@@ -11,5 +15,7 @@
 			%div{:id => "bread_crumbs"}
 				- bread_crumbs_rel.each do|crumb|
 					%a{:href => crumb}= titleize(File.basename crumb, ".*")
+			%div{:id => "search_container", :data => {:index => search_json_path}}
+				%input{:type => "text", :id => "search"}
 			%div{:id => "content"}
 				#page_content= content

@@ -36,3 +36,6 @@ blockquote {
     content: " >"; }
   #bread_crumbs a:last-child::after {
     content: ""; }
+
+.ui-widget {
+  font-size: 11px; }

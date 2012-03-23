@@ -80,12 +80,16 @@ module Sno
 	Extractor.add_matcher({:class => Linker, :expressions => [/.*\.pdf/]})
 
 	class Page < Linker
+		@@pages = []
 		include ActiveSupport::Inflector
 		attr_accessor :content
 		attr_accessor :name
-		attr_accessor :css_path	
+		attr_accessor :css_path
+		attr_accessor :jquery_path
 		attr_accessor :root_href
+		attr_accessor :simple_search_path
 		attr_accessor :bread_crumbs
+		attr_accessor :search_json_path
 
 		def initialize(file_path, output_dir, options = {})
 			super file_path, output_dir, options
@@ -95,6 +99,24 @@ module Sno
 			@root_href = Pathname.new(options[:root_path]).relative_path_from Pathname.new output_dir
 			@bread_crumbs = options[:bread_crumbs] || []
 			bread_crumbs << "#{output_dir}/#{output_name}"
+			@@pages << {:label => titleize(@name), :value => File.expand_path("#{output_dir}/#{output_name}")}
+			@jquery_path = Pathname.new(JQUERY).relative_path_from Pathname.new output_dir
+			@jquery_ui_path = Pathname.new(JQUERY_UI).relative_path_from Pathname.new output_dir
+			@simple_search_path = Pathname.new(SIMPLE).relative_path_from Pathname.new output_dir
+			@jquery_ui_css_path = Pathname.new(JQUERY_UI_CSS).relative_path_from Pathname.new output_dir
+			@search_json_path = Pathname.new(SEARCH_INDEX).relative_path_from Pathname.new output_dir
+		end
+
+		def self.pages
+			@@pages
+		end
+
+		def javascripts
+			[@jquery_path, @jquery_ui_path, @simple_search_path]
+		end
+
+		def stylesheets
+			[@jquery_ui_css_path]
 		end
 
 		def bread_crumbs_rel
