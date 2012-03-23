@@ -90,7 +90,6 @@ module Sno
 		def initialize(file_path, output_dir, options = {})
 			super file_path, output_dir, options
 			@name = File.basename file_path, ".*"		
-			@css_path = Pathname.new(options[:css_file]).relative_path_from Pathname.new output_dir if options[:css_file]
 			options[:root_path] ||= output_path
 			@root_href = Pathname.new(options[:root_path]).relative_path_from Pathname.new output_dir
 			@bread_crumbs = options[:bread_crumbs] || []
