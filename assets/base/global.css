@@ -40,6 +40,8 @@ blockquote {
 #search_container {
   margin: 1em 0;
   padding: 0 10px; }
+  #search_container #search {
+    width: 200px; }
 
 .ui-widget {
   font-size: 11px; }
