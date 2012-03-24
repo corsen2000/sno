@@ -10,8 +10,3 @@ Installation Instructions
 2. Run "bundle install"
 3. You should now be able to run sno from the bin directory
 4. Optionally run "rake install" to install as a gem
-
-Browser Quirks
---------------
-* Chrome currently requires being launched with the flag  
-  --allow-file-access-from-files to use simple search
