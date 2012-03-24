@@ -247,9 +247,10 @@ module Sno
 	Extractor.add_matcher({:class => TextilePage, :expressions => [/.*\.textile/]})
 
 	class MarkDownPage < Page
-		@@markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, 
-			:autolink => true, :space_after_headers => true, 
-			:fenced_code_blocks => true, :no_intra_emphasis => true)
+		parse_options = { :autolink => true, :space_after_headers => true, :fenced_code_blocks => true, :no_intra_emphasis => true }
+		render_options = { :hard_wrap => true }
+		@@markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(render_options), parse_options) 
+
 		def extract_content
 			@@markdown.render(File.read(file_path))
 		end
