@@ -37,6 +37,6 @@ output_dir = (ARGV[1] && ARGV[1].chomp("/")) || "#{input_dir}/SnoOut"
 root_extractor, assets_root = sno_init(input_dir, output_dir, options)
 root_extractor.save
 
-File.open("#{assets_root}/search_index.json", "w+") do |f|
-	f.puts JSON(Page.pages)
+File.open("#{assets_root}/search_index.js", "w+") do |f|
+  f.puts "var searchIndex = JSON.parse('#{JSON(Page.pages)}');"
 end

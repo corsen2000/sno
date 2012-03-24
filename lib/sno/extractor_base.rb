@@ -106,7 +106,7 @@ module Sno
 		end
 
 		def javascripts
-			%w(jquery jquery-ui simple_search).map do |js|
+			%w(jquery jquery-ui simple_search search_index).map do |js|
 				Pathname.new("#{options[:assets_root]}/#{js}.js").relative_path_from Pathname.new output_dir
 			end
 		end
