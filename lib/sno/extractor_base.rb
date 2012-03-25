@@ -97,7 +97,7 @@ module Sno
 			@@pages << {
 				:label => "#{titleize(@name)} (#{titleize(File.basename output_dir)})",
 				:value => File.expand_path("#{output_dir}/#{output_name}"), 
-				:display => "#{output_dir}/#{@name}".sub(/.*?\//, "").sub(/.*?\//, "")
+				:display => "#{output_dir}/#{@name}".sub(OUTPUT_ROOT, "").sub(/.*?\//, "")
 			}
 		end
 

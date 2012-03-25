@@ -33,6 +33,7 @@ end.parse!
 
 input_dir = (ARGV[0] && ARGV[0].chomp("/")) or raise "You must specify a input directory!"
 output_dir = (ARGV[1] && ARGV[1].chomp("/")) || "#{input_dir}/SnoOut"
+OUTPUT_ROOT = "#{output_dir}/"
 
 root_extractor, assets_root = sno_init(input_dir, output_dir, options)
 root_extractor.save
