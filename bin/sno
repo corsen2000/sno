@@ -15,18 +15,18 @@ options = {
 }
 
 OptionParser.new do |opts|
-	opts.banner = "Usage: sno.rb input_dir [output_dir] [options]"
+  opts.banner = "Usage: sno.rb input_dir [output_dir] [options]"
 
-	opts.on("-n", "--project-name [NAME]", String, "Specify a name to persist throughout the pages") do |n|
-    	options[:project_name] = n
-  	end
+  opts.on("-n", "--project-name [NAME]", String, "Specify a name to persist throughout the pages") do |n|
+      options[:project_name] = n
+    end
 
-  	opts.on("-f", "--force", "Force updates to .sno assets directory") do
-  		options[:force] = true
-  	end
+    opts.on("-f", "--force", "Force updates to .sno assets directory") do
+      options[:force] = true
+    end
 
-  	opts.on("-h", "--help", "Show this message") do
-    	puts opts
+    opts.on("-h", "--help", "Show this message") do
+      puts opts
     exit
   end
 end.parse!
