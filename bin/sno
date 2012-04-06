@@ -2,7 +2,6 @@
 #require "rubygems"
 #require "bundler/setup"
 SNO_ROOT =  File.expand_path("../../", __FILE__)
-TEMPLATE_ROOT = "#{SNO_ROOT}/assets/templates"
 require "sno"
 require 'optparse'
 require "json"
@@ -10,7 +9,7 @@ require "json"
 include Sno
 
 options = {
-    :project_name => nil,
+    :notebook_name => nil,
     :force => false
 }
 
@@ -18,7 +17,7 @@ OptionParser.new do |opts|
   opts.banner = "Usage: sno.rb input_dir [output_dir] [options]"
 
   opts.on("-n", "--project-name [NAME]", String, "Specify a name to persist throughout the pages") do |n|
-      options[:project_name] = n
+      options[:notebook_name] = n
     end
 
     opts.on("-f", "--force", "Force updates to .sno assets directory") do
@@ -32,12 +31,7 @@ OptionParser.new do |opts|
 end.parse!
 
 input_dir = (ARGV[0] && ARGV[0].chomp("/")) or raise "You must specify a input directory!"
-output_dir = (ARGV[1] && ARGV[1].chomp("/")) || "#{input_dir}/SnoOut"
-OUTPUT_ROOT = "#{output_dir}/"
+options[:output_dir] = ARGV[1] if ARGV[1]
 
-root_extractor, assets_root = sno_init(input_dir, output_dir, options)
-root_extractor.save
-
-File.open("#{assets_root}/search_index.js", "w+") do |f|
-  f.puts "var searchIndex = JSON.parse('#{JSON(Page.pages)}');"
-end
+sno = Sno::Sno.new input_dir, options
+sno.generate_notebook

@@ -1,38 +1,56 @@
 require "sno/extractor_base"
 
 module Sno
-  def sno_init(input_dir, output_dir, options)
-    input_dir = File.expand_path(input_dir)
-    assets_root = "#{output_dir}/.sno"
 
-    Dir.mkdir(output_dir) unless Dir.exists? output_dir
-    Dir.mkdir(assets_root) unless Dir.exists? assets_root
-
-    copy_if_needed "#{SNO_ROOT}/assets/base/global.css", "#{assets_root}/global.css", options
-    options[:css_file] = "global"
-    options[:assets_root] = assets_root
-
-    copy_if_needed "#{SNO_ROOT}/assets/lib/jquery-1.7.2.js", "#{assets_root}/jquery.js", options
-    copy_if_needed "#{SNO_ROOT}/assets/base/simple_search.js", "#{assets_root}/simple_search.js", options
-    copy_if_needed "#{SNO_ROOT}/assets/lib/jquery-ui-1.8.18.custom.min.js", "#{assets_root}/jquery-ui.js", options
-    copy_if_needed "#{SNO_ROOT}/assets/lib/jquery-ui-1.8.18.custom.css", "#{assets_root}/jquery-ui.css", options
-    copy_if_needed "#{SNO_ROOT}/assets/lib/images", "#{assets_root}/images", options
-    copy_if_needed "#{SNO_ROOT}/assets/base/.snoignore", "#{input_dir}/.snoignore", options
-
-    File.open("#{input_dir}/.snoignore").each do |line|
-      Extractor.add_ignore("#{input_dir}/#{line.chomp}")
+  class Sno
+    def initialize(input_dir, options)
+      @input_dir = File.expand_path input_dir
+      @options = default_options.merge options
+      @input_assets_path = "#{SNO_ROOT}/assets/"
+      @output_assets_path = "#{@options[:output_dir]}/.sno"
     end
 
-    [Extractor.extractor_for(input_dir).new(input_dir, output_dir, options), assets_root]
-  end
+    def default_options
+      {
+        output_dir: "#{@input_dir}/SnoOut/",
+        notebook_name: "Sno",
+        force: false
+      }
+    end
 
-  def copy_if_needed(source, dest, options, dir = false)
-    if !File.exists?(dest) || options[:force]
-      if dir
-        FileUtils.copy source, dest
-      else
-        FileUtils.copy_entry source, dest
+    def generate_notebook
+      prepare_output_directory
+      prepare_output_assets
+      set_extractor_ignores
+      extractor_klass = Extractor.extractor_for(@input_dir)
+      root_extractor = extractor_klass.new(@input_dir, @options[:output_dir], @options.merge({assets_path: @output_assets_path, input_assets_path: @input_assets_path}))
+      root_extractor.save
+      prepare_simple_search
+    end
+
+    def prepare_output_directory
+      Dir.mkdir(@options[:output_dir]) unless Dir.exists? @options[:output_dir]
+      Dir.mkdir(@output_assets_path) unless Dir.exists? @output_assets_path
+    end
+
+    def prepare_output_assets
+      FileUtils.copy_entry "#{@input_assets_path}/lib", "#{@output_assets_path}/lib"
+      FileUtils.copy_entry "#{@input_assets_path}/base", "#{@output_assets_path}/base"
+    end
+
+    def set_extractor_ignores
+      if File.exists? "#{@input_dir}/.snoignore"
+        File.open("#{@input_dir}/.snoignore").each do |line|
+          Extractor.add_ignore("#{@input_dir}/#{line.chomp}")
+        end
+      end
+    end
+
+    def prepare_simple_search
+      File.open("#{@output_assets_path}/search_index.js", "w+") do |f|
+        f.puts "var searchIndex = JSON.parse('#{JSON(Page.pages)}');"
       end
     end
   end
+
 end

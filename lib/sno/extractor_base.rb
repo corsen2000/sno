@@ -67,6 +67,10 @@ module Sno
         matcher[:class] unless matcher.nil?
       end
     end
+
+    def template_root
+      "#{options[:input_assets_path]}/templates"
+    end
   end
 
   class Linker < Extractor
@@ -97,7 +101,7 @@ module Sno
       @@pages << {
         :label => "#{titleize(@name)} (#{titleize(File.basename output_dir)})",
         :value => File.expand_path("#{output_dir}/#{output_name}"), 
-        :display => "#{output_dir}/#{@name}".sub(OUTPUT_ROOT, "").sub(/.*?\//, "")
+        :display => "#{output_dir}/#{@name}".sub(options[:root_path], "").sub(/.*?\//, "")
       }
     end
 
@@ -106,18 +110,18 @@ module Sno
     end
 
     def javascripts
-      %w(jquery jquery-ui simple_search search_index).map do |js|
-        Pathname.new("#{options[:assets_root]}/#{js}.js").relative_path_from Pathname.new output_dir
+      %w(lib/jquery-1.7.2 lib/jquery-ui-1.8.18.custom.min base/simple_search search_index).map do |js|
+        Pathname.new("#{options[:assets_path]}/#{js}.js").relative_path_from Pathname.new output_dir
       end
     end
 
     def search_json_path
-      Pathname.new("#{options[:assets_root]}/search_index.json").relative_path_from Pathname.new output_dir
+      Pathname.new("#{options[:assets_path]}/search_index.json").relative_path_from Pathname.new output_dir
     end
 
     def stylesheets
-      ["jquery-ui", options[:css_file]].map do |css|
-        Pathname.new("#{options[:assets_root]}/#{css}.css").relative_path_from Pathname.new output_dir
+      ["lib/jquery-ui-1.8.18.custom", "base/global"].map do |css|
+        Pathname.new("#{options[:assets_path]}/#{css}.css").relative_path_from Pathname.new output_dir
       end
     end
 
@@ -144,7 +148,7 @@ module Sno
     end
 
     def to_html
-      page_engine = Haml::Engine.new(File.read("#{TEMPLATE_ROOT}/layout.haml"), :ugly => true)
+      page_engine = Haml::Engine.new(File.read("#{template_root}/layout.haml"), :ugly => true)
       page_engine.render(self)
     end
 
@@ -171,7 +175,7 @@ module Sno
         end
       end
       unless children.empty?
-        index_engine = Haml::Engine.new(File.read("#{TEMPLATE_ROOT}/index.haml"))
+        index_engine = Haml::Engine.new(File.read("#{template_root}/index.haml"))
         index_engine.render(self)
       end
     end
