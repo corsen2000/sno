@@ -13,7 +13,7 @@
 			%div{:id => "bread_crumbs"}
 				- bread_crumbs_rel.each do|crumb|
 					%a{:href => crumb}= titleize(File.basename crumb, ".*")
-			%div{:id => "search_container", :data => {:index => search_json_path}}
+			%div{:id => "search_container"}
 				%input{:type => "text", :id => "search"}
 			%div{:id => "content"}
 				#page_content= content

@@ -20,12 +20,28 @@ module Sno
     end
 
     def generate_notebook
+      pre_generation
+      generation
+      post_generation
+    end
+
+    def pre_generation
       prepare_output_directory
       prepare_output_assets
       set_extractor_ignores
+    end
+
+    def generation
+      extractor_options = @options.merge({
+        assets_path: @output_assets_path, 
+        templates_path: "#{@input_assets_path}/templates"
+      })
       extractor_klass = Extractor.extractor_for(@input_dir)
-      root_extractor = extractor_klass.new(@input_dir, @options[:output_dir], @options.merge({assets_path: @output_assets_path, input_assets_path: @input_assets_path}))
-      root_extractor.save
+      root_extractor = extractor_klass.new(@input_dir, @options[:output_dir], extractor_options)
+      root_extractor.save      
+    end
+
+    def post_generation
       prepare_simple_search
     end
 

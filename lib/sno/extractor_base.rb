@@ -69,7 +69,7 @@ module Sno
     end
 
     def template_root
-      "#{options[:input_assets_path]}/templates"
+      "#{options[:templates_path]}"
     end
   end
 
@@ -113,10 +113,6 @@ module Sno
       %w(lib/jquery-1.7.2 lib/jquery-ui-1.8.18.custom.min base/simple_search search_index).map do |js|
         Pathname.new("#{options[:assets_path]}/#{js}.js").relative_path_from Pathname.new output_dir
       end
-    end
-
-    def search_json_path
-      Pathname.new("#{options[:assets_path]}/search_index.json").relative_path_from Pathname.new output_dir
     end
 
     def stylesheets

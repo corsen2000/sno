@@ -30,7 +30,7 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-input_dir = (ARGV[0] && ARGV[0].chomp("/")) or raise "You must specify a input directory!"
+input_dir = ARGV[0] or raise "You must specify a input directory!"
 options[:output_dir] = ARGV[1] if ARGV[1]
 
 sno = Sno::Sno.new input_dir, options
