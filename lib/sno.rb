@@ -34,7 +34,7 @@ module Sno
     def generation
       extractor_options = @options.merge({
         assets_path: @output_assets_path, 
-        templates_path: "#{@input_assets_path}/templates"
+        templates_path: "#{@input_assets_path}/private/templates"
       })
       extractor_klass = Extractor.extractor_for(@input_dir)
       root_extractor = extractor_klass.new(@input_dir, @options[:output_dir], extractor_options)
@@ -51,8 +51,7 @@ module Sno
     end
 
     def prepare_output_assets
-      copy_directory "#{@input_assets_path}/lib", "#{@output_assets_path}/lib"
-      copy_directory "#{@input_assets_path}/base", "#{@output_assets_path}/base"
+      copy_directory "#{@input_assets_path}/public", "#{@output_assets_path}"
     end
 
     def copy_directory(src, dest)

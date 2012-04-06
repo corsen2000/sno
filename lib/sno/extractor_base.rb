@@ -110,13 +110,13 @@ module Sno
     end
 
     def javascripts
-      %w(lib/jquery-1.7.2 lib/jquery-ui-1.8.18.custom.min base/simple_search search_index).map do |js|
+      %w(lib/jquery-1.7.2 lib/jquery-ui-1.8.18.custom.min simple_search search_index).map do |js|
         Pathname.new("#{options[:assets_path]}/#{js}.js").relative_path_from Pathname.new output_dir
       end
     end
 
     def stylesheets
-      ["lib/jquery-ui-1.8.18.custom", "base/global"].map do |css|
+      ["lib/jquery-ui-1.8.18.custom", "global"].map do |css|
         Pathname.new("#{options[:assets_path]}/#{css}.css").relative_path_from Pathname.new output_dir
       end
     end
