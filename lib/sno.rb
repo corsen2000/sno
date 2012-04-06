@@ -4,15 +4,16 @@ module Sno
 
   class Sno
     def initialize(input_dir, options)
-      @input_dir = File.expand_path input_dir
+      @input_dir = File.expand_path(input_dir).chomp("/")
       @options = default_options.merge options
+      @options[:output_dir] = @options[:output_dir].chomp("/")
       @input_assets_path = "#{SNO_ROOT}/assets/"
       @output_assets_path = "#{@options[:output_dir]}/.sno"
     end
 
     def default_options
       {
-        output_dir: "#{@input_dir}/SnoOut/",
+        output_dir: "#{@input_dir}/SnoOut",
         notebook_name: "Sno",
         force: false
       }
