@@ -51,8 +51,14 @@ module Sno
     end
 
     def prepare_output_assets
-      FileUtils.copy_entry "#{@input_assets_path}/lib", "#{@output_assets_path}/lib"
-      FileUtils.copy_entry "#{@input_assets_path}/base", "#{@output_assets_path}/base"
+      copy_directory "#{@input_assets_path}/lib", "#{@output_assets_path}/lib"
+      copy_directory "#{@input_assets_path}/base", "#{@output_assets_path}/base"
+    end
+
+    def copy_directory(src, dest)
+      if !Dir.exists?(src) || @options[:force]
+        FileUtils.copy_entry src, dest
+      end
     end
 
     def set_extractor_ignores
