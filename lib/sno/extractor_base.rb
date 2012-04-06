@@ -128,7 +128,7 @@ module Sno
     end
 
     def title
-      options[:project_name] ||= titleize(name)
+      options[:notebook_name] ||= titleize(name)
     end
 
     def header
