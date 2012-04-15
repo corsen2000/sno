@@ -1,0 +1,12 @@
+@import "simple_base";
+
+$background: #336699;
+$header: #99CCFF;
+$title: #020246;
+$page_background: white;
+$headers: #2A2A5E;
+$links: #2828B5;
+$quote_outline: navy;
+$quote_background: lightgray;
+
+@include simple_base;

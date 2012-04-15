@@ -7,13 +7,14 @@
 			%link{:rel => "stylesheet", :type => "text/css", :href => css_file}
 	%body
 		%div{:id => "container"}
-			%div{:id => "title_bar"}
-				%h1
-					%a{:href => root_href}= title
-			%div{:id => "bread_crumbs"}
-				- bread_crumbs_rel.each do|crumb|
-					%a{:href => crumb}= titleize(File.basename crumb, ".*")
-			%div{:id => "search_container"}
-				%input{:type => "text", :id => "search"}
+			%div{:id => "header"}
+				%div{:id => "title_bar"}
+					%h1
+						%a{:id => "title", :href => root_href}= title
+				%div{:id => "bread_crumbs"}
+					- bread_crumbs_rel.each do|crumb|
+						%a{:href => crumb}= titleize(File.basename crumb, ".*")
+				%div{:id => "search_container"}
+					%input{:type => "text", :id => "search"}
 			%div{:id => "content"}
 				#page_content= content

@@ -1,0 +1,79 @@
+@mixin simple_base {
+	/* Layout and Frame Content Styling */
+	body {	
+		margin: 0;
+		background-color: $background;
+	}
+	#header {
+		background-color: $header;
+		border-bottom: 2px solid darken($header, 50%);
+	}
+	#title_bar h1 {
+		margin-bottom: 0;
+	}
+	#title {
+		text-decoration: underline;
+		color: $title;
+	}
+	#title_bar, #content, #bread_crumbs {
+		padding: 0 10px;
+	}
+	#bread_crumbs {
+		margin: .5em 0;
+		a {
+			&::after {
+				content: " >";
+			}
+			&:last-child::after {
+				content: "";
+			}
+		}
+	}
+	#content {
+		width: 1000px;
+		margin: 0 auto;
+		padding: 10px 0;		
+	}
+	#page_content {
+		padding: 10px;
+		background-color: $page_background;
+		*:first-child {
+			margin-top: 0;
+		}
+		*:last-child {
+			margin-bottom: 0;
+		}
+	}
+	#search_container {
+		margin: .5em 0;
+		padding: 0 10px;
+		#search {
+			width: 200px;
+		}
+	}
+	.ui-widget {
+		font-size: 11px;
+	}
+
+	/* General Styling */
+	h1, h2, h3 {
+		color: $headers;
+	}
+	a, a:visited {
+		text-decoration: none;
+		color: $links;
+		&.raw {
+			color: red;
+		}
+	}
+	blockquote {
+		background-color: $quote_background;
+		border: 1px solid $quote_outline;
+		p:first-child {
+			margin-top: 0;
+		}
+		p:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
