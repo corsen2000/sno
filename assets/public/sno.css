@@ -34,7 +34,7 @@ body {
   background-color: white; }
   #page_content > *:first-child {
     margin-top: 0; }
-  #page_content *:last-child {
+  #page_content > *:last-child {
     margin-bottom: 0; }
 
 #search_container {
