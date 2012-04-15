@@ -26,4 +26,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "RedCloth"
   s.add_runtime_dependency "redcarpet"
   s.add_runtime_dependency "json"
+  s.add_runtime_dependency "coderay"
 end

@@ -32,7 +32,7 @@ body {
 #page_content {
   padding: 10px;
   background-color: white; }
-  #page_content *:first-child {
+  #page_content > *:first-child {
     margin-top: 0; }
   #page_content *:last-child {
     margin-bottom: 0; }
@@ -47,7 +47,7 @@ body {
   font-size: 11px; }
 
 /* General Styling */
-h1, h2, h3 {
+h1, h2, h3, h4, h5, h6 {
   color: #2a2a5e; }
 
 a, a:visited {
@@ -63,3 +63,7 @@ blockquote {
     margin-top: 0; }
   blockquote p:last-child {
     margin-bottom: 0; }
+
+.CodeRay {
+  margin: 10px 0;
+  padding: 5px; }

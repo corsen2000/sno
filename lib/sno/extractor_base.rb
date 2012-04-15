@@ -6,6 +6,7 @@ require "pathname"
 require "base64"
 require "redcloth"
 require "redcarpet"
+require "coderay"
 
 module Sno
   class Extractor
@@ -116,7 +117,7 @@ module Sno
     end
 
     def stylesheets
-      ["lib/jquery-ui-1.8.18.custom", "sno"].map do |css|
+      ["lib/jquery-ui-1.8.18.custom", "sno", "code"].map do |css|
         Pathname.new("#{options[:assets_path]}/#{css}.css").relative_path_from Pathname.new output_dir
       end
     end
@@ -246,10 +247,17 @@ module Sno
   end
   Extractor.add_matcher({:class => TextilePage, :expressions => [/.*\.textile/]})
 
+  class SnoMarkupRenderer < Redcarpet::Render::HTML
+    def block_code(code, language)
+      language ||= :text
+      code = CodeRay.scan(code, language).div(:css => :class)
+    end
+  end
+
   class MarkDownPage < Page
     parse_options = { :autolink => true, :space_after_headers => true, :fenced_code_blocks => true, :no_intra_emphasis => true }
     render_options = { :hard_wrap => true }
-    @@markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(render_options), parse_options) 
+    @@markdown = Redcarpet::Markdown.new(SnoMarkupRenderer.new(render_options), parse_options) 
 
     def extract_content
       @@markdown.render(File.read(file_path))

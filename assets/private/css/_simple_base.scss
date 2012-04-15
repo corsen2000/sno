@@ -37,7 +37,7 @@
 	#page_content {
 		padding: 10px;
 		background-color: $page_background;
-		*:first-child {
+		> *:first-child {
 			margin-top: 0;
 		}
 		*:last-child {
@@ -56,7 +56,7 @@
 	}
 
 	/* General Styling */
-	h1, h2, h3 {
+	h1, h2, h3, h4, h5, h6 {
 		color: $headers;
 	}
 	a, a:visited {
@@ -75,5 +75,9 @@
 		p:last-child {
 			margin-bottom: 0;
 		}
+	}
+	.CodeRay {
+		margin: 10px 0;
+		padding: 5px;
 	}
 }
