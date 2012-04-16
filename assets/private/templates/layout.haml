@@ -15,6 +15,6 @@
 					- bread_crumbs_rel.each do|crumb|
 						%a{:href => crumb}= titleize(File.basename crumb, ".*")
 				%div{:id => "search_container"}
-					%input{:type => "text", :id => "search"}
+					%input{:type => "text", :id => "search", :placeholder => "search"}
 			%div{:id => "content"}
 				#page_content= content
