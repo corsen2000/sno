@@ -8,7 +8,7 @@ module Sno
       @options = default_options.merge options
       @options[:output_dir] = @options[:output_dir].chomp("/")
       @input_assets_path = "#{SNO_ROOT}/assets/"
-      @output_assets_path = "#{@options[:output_dir]}/.sno"
+      @output_assets_path = "#{@options[:output_dir]}/.sno/assets"
     end
 
     def default_options
@@ -45,9 +45,9 @@ module Sno
       prepare_simple_search
     end
 
-    def prepare_output_directory
+    def prepare_output_directory      
       Dir.mkdir(@options[:output_dir]) unless Dir.exists? @options[:output_dir]
-      Dir.mkdir(@output_assets_path) unless Dir.exists? @output_assets_path
+      Dir.mkdir("#{@options[:output_dir]}/.sno") unless Dir.exists? "#{@options[:output_dir]}/.sno"
     end
 
     def prepare_output_assets
@@ -55,7 +55,7 @@ module Sno
     end
 
     def copy_directory(src, dest)
-      if !Dir.exists?(src) || @options[:force]
+      if !Dir.exists?(dest) || @options[:force]
         FileUtils.copy_entry src, dest
       end
     end
