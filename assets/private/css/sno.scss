@@ -1,3 +1,4 @@
+@import 'bourbon/bourbon';
 body {
 	padding-top: 74px;
 }
@@ -12,15 +13,8 @@ body {
 	width: 100%;
 	margin: 0;
 	top: 40px;
-  	background-color: #fbfbfb;
-  	background-image: -moz-linear-gradient(top, #ffffff, #f5f5f5);
-    background-image: -ms-linear-gradient(top, #ffffff, #f5f5f5);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f5f5f5));
-    background-image: -webkit-linear-gradient(top, #ffffff, #f5f5f5);
-    background-image: -o-linear-gradient(top, #ffffff, #f5f5f5);
-    background-image: linear-gradient(top, #ffffff, #f5f5f5);
-    background-repeat: repeat-x;
-    border: 1px solid #DDD;
+	@include linear-gradient(top, #ffffff, #f5f5f5);
+    border: 1px solid #dddddd;
 }
 .breadcrumb {
 	margin: 0 auto;
