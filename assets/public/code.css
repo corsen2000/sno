@@ -1,12 +1,3 @@
-.CodeRay {
-  background-color: hsl(0,0%,95%);
-  border: 1px solid silver;
-  color: black;
-}
-.CodeRay pre {
-  margin: 0px;
-}
-
 span.CodeRay { white-space: pre; border: 0px; padding: 2px; }
 
 table.CodeRay { border-collapse: collapse; width: 100%; padding: 2px; }

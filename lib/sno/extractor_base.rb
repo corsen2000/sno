@@ -111,13 +111,13 @@ module Sno
     end
 
     def javascripts
-      %w(lib/jquery-1.7.2 lib/jquery-ui-1.8.18.custom.min lib/jquery.hotkeys simple_search search_index sizer hotkeys).map do |js|
+      %w(lib/jquery-1.7.2 lib/jquery-ui-1.8.18.custom.min lib/jquery.hotkeys simple_search search_index hotkeys lib/bootstrap/js/bootstrap).map do |js|
         Pathname.new("#{options[:assets_path]}/#{js}.js").relative_path_from Pathname.new output_dir
       end
     end
 
     def stylesheets
-      ["lib/jquery-ui-1.8.18.custom", "sno", "code"].map do |css|
+      ["lib/bootstrap/css/bootstrap", "lib/jquery-ui-1.8.18.custom", "code", "sno"].map do |css|
         Pathname.new("#{options[:assets_path]}/#{css}.css").relative_path_from Pathname.new output_dir
       end
     end

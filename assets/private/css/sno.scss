@@ -1,12 +1,31 @@
-@import "simple_base";
-
-$background: #336699;
-$header: #99CCFF;
-$title: #020246;
-$page_background: white;
-$headers: #2A2A5E;
-$links: #2828B5;
-$quote_outline: navy;
-$quote_background: lightgray;
-
-@include simple_base;
+body {
+	padding-top: 74px;
+}
+.navbar {
+	margin-bottom: 0;
+}
+.navbar-inner, .breadcrumb {
+	border-radius: 0;
+}
+#secondary-nav {
+	position: fixed;
+	width: 100%;
+	margin: 0;
+	top: 40px;
+  	background-color: #fbfbfb;
+  	background-image: -moz-linear-gradient(top, #ffffff, #f5f5f5);
+    background-image: -ms-linear-gradient(top, #ffffff, #f5f5f5);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#f5f5f5));
+    background-image: -webkit-linear-gradient(top, #ffffff, #f5f5f5);
+    background-image: -o-linear-gradient(top, #ffffff, #f5f5f5);
+    background-image: linear-gradient(top, #ffffff, #f5f5f5);
+    background-repeat: repeat-x;
+    border: 1px solid #DDD;
+}
+.breadcrumb {
+	margin: 0 auto;
+	border: none;
+}
+#content {
+	margin-top: 1em;
+}
