@@ -99,6 +99,7 @@ module Sno
       @root_dir = output_dir ||= output_dir
       @root_href = Pathname.new(options[:root_path]).relative_path_from Pathname.new output_dir
       @bread_crumbs = options[:bread_crumbs] || []
+      bread_crumbs << "#{output_dir}/#{output_name}"
       @@pages << {
         :label => "#{titleize(@name)} (#{titleize(File.basename output_dir)})",
         :value => File.expand_path("#{output_dir}/#{output_name}"), 
