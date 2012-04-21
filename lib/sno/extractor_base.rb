@@ -96,13 +96,13 @@ module Sno
       super file_path, output_dir, options
       @name = File.basename file_path, ".*"
       options[:root_path] ||= output_path
+      @root_dir = output_dir ||= output_dir
       @root_href = Pathname.new(options[:root_path]).relative_path_from Pathname.new output_dir
       @bread_crumbs = options[:bread_crumbs] || []
-      bread_crumbs << "#{output_dir}/#{output_name}"
       @@pages << {
         :label => "#{titleize(@name)} (#{titleize(File.basename output_dir)})",
         :value => File.expand_path("#{output_dir}/#{output_name}"), 
-        :display => "#{output_dir}/#{@name}".sub(options[:root_path], "").sub(/\/.*?\//, "").sub(/^\//, "")
+        :display => "#{output_dir}/#{@name}".sub(File.dirname(options[:root_path]), "").sub(/\/.*?\//, "").sub(/^\//, "")
       }
     end
 
