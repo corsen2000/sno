@@ -236,7 +236,7 @@ module Sno
   class ImagePage < Page
     def extract_content
       base64 = Base64.encode64(File.read(file_path))    
-      "<img src=\"data:image/#{File.extname file_path};base64,#{base64}\" />"
+      "<img src=\"data:image/#{File.extname(file_path)[1..-1]};base64,#{base64}\" />"
     end
   end
   Extractor.add_matcher({:class => ImagePage, :expressions => [/.*\.jpg/]})
