@@ -95,7 +95,7 @@ module Sno
     def initialize(file_path, output_dir, options = {})      
       super file_path, output_dir, options
       @name = File.basename file_path, ".*"
-      options[:root_path] ||= output_dir
+      options[:root_path] ||= output_path
       @root_href = Pathname.new(options[:root_path]).relative_path_from Pathname.new output_dir
       @bread_crumbs = options[:bread_crumbs] || []
       bread_crumbs << "#{output_dir}/#{output_name}"
