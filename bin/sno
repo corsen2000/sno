@@ -10,22 +10,32 @@ include Sno
 
 options = {
     :notebook_name => nil,
+    :web_server => false,
     :force => false
 }
 
 OptionParser.new do |opts|
   opts.banner = "Usage: sno.rb input_dir [output_dir] [options]"
 
-  opts.on("-n", "--project-name [NAME]", String, "Specify a name to persist throughout the pages") do |n|
-      options[:notebook_name] = n
-    end
+  opts.on("-n", "--project-name NAME", String, "Specify a name to persist throughout the pages") do |n|
+    options[:notebook_name] = n
+  end
 
-    opts.on("-f", "--force", "Force updates to .sno assets directory") do
-      options[:force] = true
+  opts.on("-w", "--web-server [WEBROOT]", "Build site that is hostable on a web server with optional base web root") do |web_root|
+    options[:web_server] = true
+    if web_root
+      web_root.chomp!("/")
+      web_root = "/" + web_root unless web_root[0] == "/"
     end
+    options[:web_root] = web_root || ""
+  end
 
-    opts.on("-h", "--help", "Show this message") do
-      puts opts
+  opts.on("-f", "--force", "Force updates to .sno assets directory") do
+    options[:force] = true
+  end
+
+  opts.on("-h", "--help", "Show this message") do
+    puts opts
     exit
   end
 end.parse!

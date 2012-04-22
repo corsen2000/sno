@@ -8,6 +8,6 @@ jQuery ->
                 $("#search").val(ui.item.display)
             false
         select: (event, ui) ->
-            window.location.href = "file://" + ui.item.value
+            window.location.href = ui.item.value
             false
         }

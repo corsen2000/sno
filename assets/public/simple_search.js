@@ -12,7 +12,7 @@
         return false;
       },
       select: function(event, ui) {
-        window.location.href = "file://" + ui.item.value;
+        window.location.href = ui.item.value;
         return false;
       }
     });

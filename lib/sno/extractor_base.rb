@@ -78,7 +78,7 @@ module Sno
     def link_type
       :raw
     end
-    def link
+    def link      
       "#{File.basename output_dir}/#{output_name}"
     end
   end
@@ -96,13 +96,17 @@ module Sno
       super file_path, output_dir, options
       @name = File.basename file_path, ".*"
       options[:root_path] ||= output_path
+      options[:root_dir] ||= output_dir
       @root_dir = output_dir ||= output_dir
       @root_href = Pathname.new(options[:root_path]).relative_path_from Pathname.new output_dir
       @bread_crumbs = options[:bread_crumbs] || []
-      bread_crumbs << "#{output_dir}/#{output_name}"
+      bread_crumbs << "#{output_dir}/#{output_name}"      
+      absolute_path_from_web_root = "/" << Pathname.new(output_path).relative_path_from(Pathname.new options[:root_dir]).to_s
+      absolute_path_from_file_system = "file://" + File.expand_path("#{output_dir}/#{output_name}")
+      pages_link_value = options[:web_server] ? options[:web_root] + absolute_path_from_web_root : absolute_path_from_file_system
       @@pages << {
         :label => "#{titleize(@name)} (#{titleize(File.basename output_dir)})",
-        :value => File.expand_path("#{output_dir}/#{output_name}"), 
+        :value => pages_link_value,
         :display => "#{output_dir}/#{@name}".sub(File.dirname(options[:root_path]), "").sub(/\/.*?\//, "").sub(/^\//, "")
       }
     end
