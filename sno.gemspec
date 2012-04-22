@@ -18,9 +18,12 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
-  # s.add_runtime_dependency "rest-client"
+  # Development
+  # CoffeeScript is also required
+  s.add_development_dependency "guard"
+  s.add_development_dependency "sass"
+  s.add_development_dependency "bourbon"
+  # Run Time
   s.add_runtime_dependency "haml"
   s.add_runtime_dependency "activesupport"
   s.add_runtime_dependency "RedCloth"
